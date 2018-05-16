@@ -16,6 +16,7 @@
   "require": {
     "php": ">=7.1",
     "slim/slim": "~3.9",
+    "doctrine/orm": "^2.5",
     "nannehuiges/jsend": "~2.1"
   },
   "require-dev": {
