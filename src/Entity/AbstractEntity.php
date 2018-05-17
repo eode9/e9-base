@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class AbstractEntity
- * @package App\Core\Common
+ * @package E9\Core\Entity
  *
  * @ORM\MappedSuperclass()
  */
