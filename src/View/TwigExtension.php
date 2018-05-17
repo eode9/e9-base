@@ -46,7 +46,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * @param \E9\Core\Entity\User $user
+     * @param \E9\Core\Document\User $user
      * @param string $resource
      * @param string $privilege
      * @return bool
