@@ -342,37 +342,22 @@ $container['cookie'] = function ($c) {
 /**
  * Action factory for "notFoundHandler" Controller
  * @param $c
- * @return \App\Core\Handler\NotFoundHandler
+ * @return \E9\Core\Handler\NotFoundHandler
  */
 $container['notFoundHandler'] = function ($c) {
-    return new E9\Core\Handler\NotFoundHandler($c->get('view'), 'views/404.twig', function ($request, $response) use ($c) {
-        return $c['response']->withStatus(404);
-    });
+    return new E9\Core\Handler\NotFoundHandler($c->get('view'), 'views/404.twig');
 };
 
 /**
  * Action factory for "notAllowedHandler" Controller
  * @param $c
- * @return \App\Core\Handler\NotAllowedHandler
+ * @return \E9\Core\Handler\NotAllowedHandler
  */
 $container['notAllowedHandler'] = function ($c) {
-    return new App\Core\Handler\NotAllowedHandler($c->get('view'), 'views/405.twig', function ($request, $response, $methods) use ($c) {
-        return $c['response']->withStatus(405);
-    });
+    return new E9\Core\Handler\NotAllowedHandler($c->get('view'), 'views/405.twig');
 };
 
 //$container['App\Core\Action\UploadedDocumentAction'] = function ($c) {
 //    return new App\Core\Action\UploadedDocumentAction($c->get('view'), $c->get('logger'), $c->get('datadb'));
 //};
 
-/**
- * Modules dependencies
- */
-foreach (ENABLED_MODULES as $module) {
-    $filename = sprintf('%s/modules/%s/dependencies.php', BASE_PATH, $module);
-    if (is_file($filename)) {
-        require_once $filename;
-    } else {
-        die('Config file missing : ' . $filename);
-    }
-}
