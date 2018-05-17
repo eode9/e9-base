@@ -76,6 +76,6 @@
     "psr-4": {
       "E9\\Core\\": "src/"
     },
-    "files": [ "env.php" ]
+    "files": [ "src/env.php" ]
   }
 }
