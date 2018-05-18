@@ -227,9 +227,18 @@ $container['dm'] = function ($c) use ($loader) {
 
     \Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver::registerAnnotationClasses();
 
-    $connection = new \Doctrine\MongoDB\Connection(new MongoClient(), [], $config);
+    $dsn = sprintf('mongodb://%s:%s@%s:%s/%s',
+        $settings['doctrine-odm']['connection']['user'],
+        $settings['doctrine-odm']['connection']['password'],
+        $settings['doctrine-odm']['connection']['server'],
+//        $settings['doctrine-odm']['connection']['port']
+        27017,
+        $settings['doctrine-odm']['connection']['dbname']
+    );
 
-    define('MONGODB_NAME', getenv('MONGODB_NAME'));
+    $connection = new \Doctrine\MongoDB\Connection($dsn, [], $config);
+
+    define('MONGODB_NAME', $settings['doctrine-odm']['connection']['dbname']);
 
     return  \Doctrine\ODM\MongoDB\DocumentManager::create($connection, $config);
 };
