@@ -57,11 +57,11 @@ $container['view'] = function ($c) {
     $view->offsetSet('ALLOW_FEEDBACKS', getenv('ALLOW_FEEDBACKS'));
     $view->offsetSet('user', $c['user']);
 
-    $view->offsetSet('current_language', $c['em']->getRepository(\E9\Core\Document\Lang::class)->findOneBy([
+    $view->offsetSet('current_language', $c['dm']->getRepository(\E9\Core\Document\Lang::class)->findOneBy([
         'iso' => $current_lang
     ]));
 
-    $view->offsetSet('langs', $c['em']->getRepository(\E9\Core\Document\Lang::class)->findAll());
+    $view->offsetSet('langs', $c['dm']->getRepository(\E9\Core\Document\Lang::class)->findAll());
     $view->offsetSet('settings', $settings);
 
     return $view;
