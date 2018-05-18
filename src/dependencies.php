@@ -215,31 +215,23 @@ $container['dm'] = function ($c) use ($loader) {
 
     $settings = $c->get('settings');
 
-    $connection = new \Doctrine\MongoDB\Connection(
-        new MongoClient()
-    );
-
     $config = new Doctrine\ODM\MongoDB\Configuration();
     $config->setHydratorDir($settings['doctrine-odm']['meta']['hydrator_dir']);
     $config->setHydratorNamespace($settings['doctrine-odm']['meta']['hydrator_namespace']);
     $config->setProxyDir($settings['doctrine-odm']['meta']['proxy_dir']);
     $config->setProxyNamespace($settings['doctrine-odm']['meta']['proxy_namespace']);
+    $config->setMetadataDriverImpl(\Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver::create(
+        $settings['doctrine-odm']['meta']['directory_mapping']));
+    $config->setRetryConnect(true);
+//    $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ApcuCache());
 
-    $evm = new \Doctrine\Common\EventManager;
-//    $rtdl = new \Doctrine\ODM\MongoDB\Tools\ResolveTargetDocumentListener;
+    \Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver::registerAnnotationClasses();
 
-// Adds a target-document class
-//    $rtdl->addResolveTargetDocument(
-//        'Acme\\InvoiceModule\\Model\\InvoiceSubjectInterface',
-//        'Acme\\CustomerModule\\Document\\Customer',
-//        array()
-//    );
+    $connection = new \Doctrine\MongoDB\Connection(new MongoClient(), [], $config);
 
-// Add the ResolveTargetDocumentListener
-//    $evm->addEventListener(\Doctrine\ODM\MongoDB\Events::loadClassMetadata, $rtdl);
+    define('MONGODB_NAME', getenv('MONGODB_NAME'));
 
-// Create the document manager as you normally would
-    return \Doctrine\ODM\MongoDB\DocumentManager::create($connection, $config, $evm);
+    return  \Doctrine\ODM\MongoDB\DocumentManager::create($connection, $config);
 };
 
 /**

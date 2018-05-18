@@ -31,7 +31,7 @@ abstract class AbstractDocument implements \JsonSerializable
         $this->createdAt = new \DateTime();
     }
 
-    /** @PrePersist( */
+    /** @PrePersist */
     public function prePersist() : void
     {
         $this->updatedAt = new \DateTime();

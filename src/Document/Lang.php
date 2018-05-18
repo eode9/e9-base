@@ -8,7 +8,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations\Field;
 /**
  * @Document(
  *     collection="languages",
- *     repositoryClass="App\Product\Repository\ProductRepository")
+ *     repositoryClass="E9\Core\Repository\LangRepository")
  */
 class Lang extends AbstractDocument
 {
