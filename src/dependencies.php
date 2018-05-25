@@ -223,17 +223,17 @@ $container['dm'] = function ($c) use ($loader) {
     $config->setMetadataDriverImpl(\Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver::create(
         $settings['doctrine-odm']['meta']['directory_mapping']));
     $config->setRetryConnect(true);
+    $config->setDefaultDB($settings['doctrine-odm']['connection']['dbname']);
+
 //    $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ApcuCache());
 
     \Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver::registerAnnotationClasses();
 
-    $dsn = sprintf('mongodb://%s:%s@%s:%s/%s',
+    $dsn = sprintf('mongodb://%s:%s@%s:%s/',
         $settings['doctrine-odm']['connection']['user'],
         $settings['doctrine-odm']['connection']['password'],
         $settings['doctrine-odm']['connection']['server'],
-//        $settings['doctrine-odm']['connection']['port']
-        27017,
-        $settings['doctrine-odm']['connection']['dbname']
+        $settings['doctrine-odm']['connection']['port']
     );
 
     $connection = new \Doctrine\MongoDB\Connection($dsn, [], $config);
