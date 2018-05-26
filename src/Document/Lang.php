@@ -2,13 +2,12 @@
 
 namespace E9\Core\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\Field;
 
 /**
  * @Document(repositoryClass="E9\Core\Repository\LangRepository")
- * @Collection(name="core_lang")
+ * @Field(type="collection", name="core_lang")
  */
 class Lang extends AbstractDocument
 {
