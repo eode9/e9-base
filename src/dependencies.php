@@ -57,6 +57,8 @@ $container['view'] = function ($c) {
     $view->offsetSet('ALLOW_FEEDBACKS', getenv('ALLOW_FEEDBACKS'));
     $view->offsetSet('user', $c['user']);
 
+    $view->offsetSet('siteName', E9_SITE_NAME);
+
     $view->offsetSet('current_language', $c['dm']->getRepository(\E9\Core\Document\Lang::class)->findOneBy([
         'iso' => $current_lang
     ]));
