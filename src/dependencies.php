@@ -341,6 +341,11 @@ $container['cookie'] = function ($c) {
     return new \Slim\Http\Cookies($request->getCookieParams());
 };
 
+$container['validator'] = function ($c) {
+    return Symfony\Component\Validator\Validation::createValidatorBuilder()
+        ->enableAnnotationMapping()
+        ->getValidator();
+};
 
 /**
  * Action factory for "notFoundHandler" Controller
