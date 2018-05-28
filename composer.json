@@ -23,7 +23,6 @@
     "slim/http-cache": "^0.3.0",
     "slim/twig-view": "~1.1",
     "alcaeus/mongo-php-adapter": "^1.1",
-    "doctrine/doctrine-module": "^2.0",
     "doctrine/mongodb-odm": "^1.2",
     "akrabat/rka-slim-session-middleware": "^2.0",
     "asm89/twig-cache-extension": "~1.0",
