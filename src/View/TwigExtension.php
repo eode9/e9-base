@@ -42,6 +42,7 @@ class TwigExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('is_allowed', array($this, 'isAllowed')),
             new \Twig_SimpleFunction('gettext', array($this, 'gettext')),
+            new \Twig_SimpleFunction('md5', array($this, 'md5')),
         ];
     }
 
@@ -63,5 +64,10 @@ class TwigExtension extends \Twig_Extension
     public function gettext($text)
     {
         return gettext($text);
+    }
+
+    public function md5($text)
+    {
+        return md5($text);
     }
 }
