@@ -30,21 +30,7 @@ $app->add(function (\Slim\Http\Request $request, \Slim\Http\Response $response, 
 /**
  * Session
  */
-$session_middleware = new \RKA\SessionMiddleware(
-    [
-        'name' => 'APP',
-//        'lifetime' => 86400 * 7,
-        'lifetime' => 0,
-        'path' => '/',
-        'domain' => getenv('APP_SESSION_DOMAIN'),
-        'secure' => false,
-        'httponly' => false,
-//        'cache_limiter' => 'public',
-    ]
-);
-
-$session_middleware->start();
-$app->add($session_middleware);
+$app->add(new \RKA\SessionMiddleware(['name' => getenv('APP_NAME')]));
 
 /**
  * CSRF
