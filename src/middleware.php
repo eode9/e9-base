@@ -6,6 +6,8 @@
  * Time: 17:58
  */
 
+$settings = $app->getContainer()->get('settings');
+
 /**
  * CLI
  */
@@ -30,7 +32,7 @@ $app->add(function (\Slim\Http\Request $request, \Slim\Http\Response $response, 
 /**
  * Session
  */
-$app->add(new \RKA\SessionMiddleware(['name' => getenv('APP_NAME')]));
+$app->add(new \RKA\SessionMiddleware($settings['session']));
 
 /**
  * CSRF
