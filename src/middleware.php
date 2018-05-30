@@ -36,7 +36,7 @@ $session_middleware = new \RKA\SessionMiddleware(
 //        'lifetime' => 86400 * 7,
         'lifetime' => 0,
         'path' => '/',
-        'domain' => getenv('APP_ENV') === 'dev' ? '.iwapp.dev' : '.ivorianweddings.io',
+        'domain' => getenv('APP_SESSION_DOMAIN'),
         'secure' => false,
         'httponly' => false,
 //        'cache_limiter' => 'public',
