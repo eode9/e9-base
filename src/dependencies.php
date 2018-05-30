@@ -79,16 +79,6 @@ $container['flash'] = function ($c) {
 };
 
 /**
- * Return MongoDB database
- * @param $c
- * @return MongoDB\Database
- */
-$container['datadb'] = function ($c) {
-    $connection = new \MongoDB\Client();
-    return $connection->selectDatabase('app');
-};
-
-/**
  * Return the Error Handler
  * @param $c
  * @return Closure
@@ -169,47 +159,6 @@ $container['logger'] = function ($c) {
 /**
  * Return the Doctrine ORM component
  * @param $c
- * @return \Doctrine\ORM\EntityManager
- * @throws \Doctrine\ORM\ORMException
- */
-$container['em'] = function ($c) use ($loader) {
-
-    $settings = $c->get('settings');
-
-    $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
-        $settings['doctrine']['meta']['entity_path'],
-        $settings['doctrine']['meta']['auto_generate_proxies'],
-        $settings['doctrine']['meta']['proxy_dir'],
-        $settings['doctrine']['meta']['cache'],
-        false
-    );
-
-    $config->setQueryCacheImpl(new \Doctrine\Common\Cache\ApcuCache());
-
-// Add Asserts annotations, etc.
-    \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-
-    /* Start Model refactoring */
-//    $evm = new \Doctrine\Common\EventManager;
-//    $rtel = new \Doctrine\ORM\Tools\ResolveTargetEntityListener;
-
-// Adds a target-entity class
-//    $rtel->addResolveTargetEntity(
-//        'App\\Workspace\\Model\\WorkspaceUserInterface',
-//        'App\\Core\\Entity\\User', array());
-
-// Add the ResolveTargetEntityListener
-//    $evm->addEventListener(Doctrine\ORM\Events::loadClassMetadata, $rtel);
-    /* End Model refactoring */
-
-// Return entity manager
-//    return \Doctrine\ORM\EntityManager::create($settings['doctrine']['connection'], $config, $evm);
-    return \Doctrine\ORM\EntityManager::create($settings['doctrine']['connection'], $config);
-};
-
-/**
- * Return the Doctrine ORM component
- * @param $c
  * @return \Doctrine\ODM\MongoDB\DocumentManager
  * @throws \Doctrine\ORM\ORMException
  */
@@ -242,7 +191,7 @@ $container['dm'] = function ($c) use ($loader) {
 
     define('MONGODB_NAME', $settings['doctrine-odm']['connection']['dbname']);
 
-    return  \Doctrine\ODM\MongoDB\DocumentManager::create($connection, $config);
+    return \Doctrine\ODM\MongoDB\DocumentManager::create($connection, $config);
 };
 
 /**
@@ -257,16 +206,6 @@ $container['mailer'] = function ($c) {
         ->setUsername($settings['mail']['default']['login'])
         ->setPassword($settings['mail']['default']['password']);
 
-//    if (APP_ENV == 'prod') {
-//        $transport = Swift_SmtpTransport::newInstance($settings['mail']['prod']['host'], $settings['mail']['prod']['port'])
-//            ->setUsername($settings['mail']['prod']['login'])
-//            ->setPassword($settings['mail']['prod']['password']);
-//    } else {
-//        $transport = Swift_SmtpTransport::newInstance($settings['mail']['dev']['host'], $settings['mail']['dev']['port'])
-//            ->setUsername($settings['mail']['dev']['login'])
-//            ->setPassword($settings['mail']['dev']['password']);
-//    }
-
     return Swift_Mailer::newInstance($transport);
 };
 
@@ -277,34 +216,22 @@ $container['mailer'] = function ($c) {
  */
 $container['session'] = function ($c) {
     $session = new \RKA\Session();
-    $session::regenerate();
+//    $session::regenerate();
     return $session;
 };
-
 
 $container['JwtAuthentication'] = function ($container) {
 
     return new \Slim\Middleware\JwtAuthentication([
         'path' => '/api',
         'passthrough' => [
-//            '/api/token',
             '/api/v1/auth',
-            '/blog/auto-draft',
-            '/api/v1/register',
-            '/api/v1/user-exists',
-            '/api/v1/forgot-password',
-            '/api/v1/reset-password-info',
-            '/api/v1/reset-password',
-            '/api/v1/input-value',
-            '/api/v1/consumption-value',
-            '/api/v1/consumption',
-            '/api/v1/input',
-            '/api/v1/output',
-            '/api/v1/resource',
         ],
-        'secret' => 'secret',
-        'relaxed' => ['localhost', 'app.dev'],
-//        'secret' => getenv('JWT_SECRET'),
+        'relaxed' => [
+            'localhost',
+            getenv('APP_DOMAIN')
+        ],
+        'secret' => getenv('JWT_SECRET'),
         'logger' => $container->get('logger'),
         'secure' => false, // HTTPS ?
 //        "algorithm" => ['HS256'],
