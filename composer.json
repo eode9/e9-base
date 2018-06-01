@@ -60,7 +60,7 @@
     "paragonie/random_compat": "^2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.2.*"
+    "phpunit/phpunit": "^5.2"
   },
   "provide": {
     "ext-mongo": "*"
