@@ -225,7 +225,8 @@ $container['JwtAuthentication'] = function ($container) {
     return new \Slim\Middleware\JwtAuthentication([
         'path' => '/api',
         'passthrough' => [
-            '/api/v1/auth',
+//            '/api/v1/auth',
+            '/api/v1/users/auth',
         ],
         'relaxed' => [
             'localhost',
