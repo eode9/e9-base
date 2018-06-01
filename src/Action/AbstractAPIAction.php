@@ -10,7 +10,7 @@ use Slim\Http\Response;
  * Class APIAbstractAction
  * @package App\Core\Action
  */
-abstract class AbstractAPIAction
+abstract class AbstractAPIAction extends AbstractAction
 {
     /**
      * @param Response $response
