@@ -221,14 +221,10 @@ $container['session'] = function ($c) {
 };
 
 $container['JwtAuthentication'] = function ($container) {
-
+    $settings = $container->get('settings');
     return new \Slim\Middleware\JwtAuthentication([
         'path' => '/api',
-        'passthrough' => [
-//            '/api/v1/auth',
-            '/api/v1/users/auth',
-//            '/api/v1/products',
-        ],
+        'passthrough' => $settings['api']['passthrough'],
         'relaxed' => [
             'localhost',
 //            getenv('APP_DOMAIN')
@@ -236,7 +232,7 @@ $container['JwtAuthentication'] = function ($container) {
         'secret' => getenv('JWT_SECRET'),
         'logger' => $container->get('logger'),
         'secure' => false, // HTTPS ?
-        "algorithm" => ['HS256'],
+        'algorithm' => ['HS256'],
         'error' => function ($request, $response, $arguments) {
             $data['status'] = 'error';
             $data['message'] = $arguments['message'];
