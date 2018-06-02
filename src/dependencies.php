@@ -227,15 +227,16 @@ $container['JwtAuthentication'] = function ($container) {
         'passthrough' => [
 //            '/api/v1/auth',
             '/api/v1/users/auth',
+//            '/api/v1/products',
         ],
         'relaxed' => [
             'localhost',
-            getenv('APP_DOMAIN')
+//            getenv('APP_DOMAIN')
         ],
         'secret' => getenv('JWT_SECRET'),
         'logger' => $container->get('logger'),
         'secure' => false, // HTTPS ?
-//        "algorithm" => ['HS256'],
+        "algorithm" => ['HS256'],
         'error' => function ($request, $response, $arguments) {
             $data['status'] = 'error';
             $data['message'] = $arguments['message'];
@@ -244,7 +245,8 @@ $container['JwtAuthentication'] = function ($container) {
                 ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
         },
         'callback' => function ($request, $response, $arguments) use ($container) {
-            $container['token']->hydrate($arguments['decoded']);
+//            $container['token']->hydrate($arguments['decoded']);
+            $container['jwt'] = $arguments['decoded'];
         }
     ]);
 };
@@ -253,6 +255,10 @@ $container['Negotiation'] = function ($container) {
     return new \Gofabian\Negotiation\NegotiationMiddleware([
         'accept' => ['application/json']
     ]);
+};
+
+$container["jwt"] = function ($container) {
+    return new StdClass;
 };
 
 $container['cache'] = function ($container) {
